@@ -1,6 +1,7 @@
 package com.manhlee.dao;
 
 import com.manhlee.connection.JDBCConnection;
+import com.manhlee.helper.ConnectionPool;
 import com.manhlee.model.Student;
 
 import java.sql.Connection;
@@ -11,13 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDao {
+    static ConnectionPool pool = ConnectionPool.getInstance();
     static Connection connection = null;
     static PreparedStatement pstmt= null;
     public static List<Student> findAll(){
         List<Student> studentList = new ArrayList<>();
         String sql = "SELECT * FROM STUDENT";
         try{
-            connection = JDBCConnection.openConnection();
+            connection = pool.getConnection();
             pstmt = connection.prepareStatement(sql);
             ResultSet resultSet = pstmt.executeQuery();
 
@@ -31,9 +33,10 @@ public class StudentDao {
             }
             resultSet.close();
             pstmt.close();
-            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            pool.freeConnection(connection);
         }
         return studentList;
     }
@@ -41,14 +44,15 @@ public class StudentDao {
         String query= "DELETE FROM STUDENT WHERE ID =?";
 
         try {
-            connection = JDBCConnection.openConnection();
+            connection = pool.getConnection();
             pstmt = connection.prepareStatement(query);
             pstmt.setString(1, id);
             pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            pool.freeConnection(connection);
         }
     }
 
@@ -56,7 +60,7 @@ public class StudentDao {
         String query = "SELECT * FROM STUDENT WHERE ID =?";
 
         try {
-            connection = JDBCConnection.openConnection();
+            connection = pool.getConnection();
             pstmt = connection.prepareStatement(query);
             pstmt.setString(1,id);
             ResultSet resultSet = pstmt.executeQuery();
@@ -68,9 +72,10 @@ public class StudentDao {
             }
             resultSet.close();
             pstmt.close();
-            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            pool.freeConnection(connection);
         }
         return null;
     }
@@ -79,7 +84,7 @@ public class StudentDao {
         String query = "UPDATE STUDENT SET `name` =?, email=?, `rank`=? WHERE id=?";
 
         try {
-            connection = JDBCConnection.openConnection();
+            connection = pool.getConnection();
             pstmt= connection.prepareStatement(query);
             pstmt.setString(1,name);
             pstmt.setString(2,email);
@@ -87,25 +92,27 @@ public class StudentDao {
             pstmt.setString(4,id);
             pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            pool.freeConnection(connection);
         }
     }
 
-    public static void insertStudent(String name, String email, String rank){
+    public static void insertStudent(Student student){
         String query = "INSERT INTO student (`name`, `email`, `rank`) VALUES (?, ?, ?)";
         try {
-            connection = JDBCConnection.openConnection();
+            connection = pool.getConnection();
             pstmt= connection.prepareStatement(query);
-            pstmt.setString(1,name);
-            pstmt.setString(2,email);
-            pstmt.setString(3,rank);
+            pstmt.setString(1,student.getName());
+            pstmt.setString(2,student.getEmail());
+            pstmt.setString(3,student.getRank());
             pstmt.executeUpdate();
             pstmt.close();
-            connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            pool.freeConnection(connection);
         }
     }
 }

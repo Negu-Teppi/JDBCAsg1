@@ -1,6 +1,7 @@
 package com.manhlee.Controller;
 
 import com.manhlee.dao.StudentDao;
+import com.manhlee.model.Student;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,10 +17,11 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("studentName");
-        String email = request.getParameter("email");
-        String rank = request.getParameter("rank");
-        StudentDao.insertStudent(name,email,rank);
+        Student student = new Student();
+        student.setName(request.getParameter("studentName"));
+        student.setEmail(request.getParameter("email"));
+        student.setRank(request.getParameter("rank"));
+        StudentDao.insertStudent(student);
         response.sendRedirect("./");
     }
 }

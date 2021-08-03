@@ -5,6 +5,16 @@
 <head>
     <title>JSP - Hello World</title>
     <style>
+        #main {
+            width: 50%;
+            height: 50%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #main div {
+            width: 50px;
+            height: 50px;
+        }
         table, th, td{
             border:1px solid black;
         }
@@ -14,6 +24,14 @@
     </style>
 </head>
 <body>
+    <div >
+        <a href="./addpage.jsp">Add</a>
+        <form action="load" method="post">
+            <input style="margin-left: 150px" type="text" name="name"/>
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+    <br/>
     <table>
         <tr>
             <th>Id</th>
@@ -33,6 +51,5 @@
         </c:forEach>
     </table>
 
-    <a href="./addpage.jsp">Add</a>
 </body>
 </html>

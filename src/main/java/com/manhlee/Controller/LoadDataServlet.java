@@ -29,6 +29,10 @@ public class LoadDataServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String name = request.getParameter("name");
+        List<Student> studentList = new ArrayList<>();
+        studentList= StudentDao.findStudentByName(name);
+        request.setAttribute("studentList", studentList);
+        request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
 }

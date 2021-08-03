@@ -11,6 +11,7 @@
     <packaging>war</packaging>
 
     <properties>
+<!--        <hikariCp.version>5.0.0</hikariCp.version>-->
         <mysql.driver.version>8.0.26</mysql.driver.version>
         <jstl.version>1.2</jstl.version>
         <servlet.api.version>4.0.1</servlet.api.version>
@@ -20,6 +21,12 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.zaxxer</groupId>-->
+<!--            <artifactId>HikariCP</artifactId>-->
+<!--            <version>${hikariCp.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

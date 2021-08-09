@@ -14,4 +14,58 @@
         <servlet-name>Load</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <security-constraint>
+<!--        tai nguyen-->
+        <web-resource-collection>
+<!--            name user set-->
+            <web-resource-name>
+<!--                SecuredApp-->
+            </web-resource-name>
+<!--            all url-->
+            <url-pattern>/*</url-pattern>
+<!--            all method GET and POST-->
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>
+               Let only use after login-->
+            </description>
+            <role-name>teacher</role-name>
+            <role-name>student</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/logonError.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <role-name>teacher</role-name>
+    </security-role>
+    <security-role>
+        <role-name>student</role-name>
+    </security-role>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>
+                SecuredApp for teacher feature
+            </web-resource-name>
+            <url-pattern>/teacher/*</url-pattern>
+            <url-pattern>/del/*</url-pattern>
+            <url-pattern>/add/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>
+                Let only use for teacher role
+            </description>
+            <role-name>teacher</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

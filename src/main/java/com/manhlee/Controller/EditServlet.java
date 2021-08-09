@@ -15,7 +15,7 @@ public class EditServlet extends HttpServlet {
         String id = request.getParameter("id");
         Student student = StudentDao.findStudentById(id);
         request.setAttribute("student", student);
-        request.getRequestDispatcher("/editpage.jsp").forward(request,response);
+        request.getRequestDispatcher("/teacher/editpage.jsp").forward(request,response);
     }
 
     @Override

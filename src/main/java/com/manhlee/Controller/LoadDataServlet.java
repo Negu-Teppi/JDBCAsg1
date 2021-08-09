@@ -21,7 +21,6 @@ public class LoadDataServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Student> studentList = new ArrayList<>();
         studentList= StudentDao.findAll();
-
         request.setAttribute("studentList", studentList);
         request.getRequestDispatcher("/index.jsp").forward(request,response);
 
@@ -29,6 +28,8 @@ public class LoadDataServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("j_security_check");
+        System.out.println(action);
         String name = request.getParameter("name");
         List<Student> studentList = new ArrayList<>();
         studentList= StudentDao.findStudentByName(name);
